@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { NavLink } from 'react-router-dom';
 import { LeftMenuIcons } from './LeftMenuIcons';
 
@@ -7,7 +8,7 @@ export default function LeftMenu() {
       <div className=" h-full flex flex-col items-center gap-4">
         {LeftMenuIcons.map((menu, _index) => {
           return (
-            <NavLink to={menu.link}>
+            <NavLink key={`${_index}-${menu}`} to={menu.link}>
               {({ isActive }) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <span key={`${_index}-${menu.name}`}>
