@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
+import { channels } from '../../../main/channels/channels';
 
 const formSchema = z.object({
   id: z.string().min(1, {
@@ -37,10 +38,12 @@ export default function AddEmployee() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await window.electron.ipcRenderer.invoke(
+      channels.EMPLOYEE_ADD,
+      values,
+    );
+    console.log(response);
   }
 
   return (
