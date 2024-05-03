@@ -2,7 +2,6 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
-import { Badge } from '../ui/badge';
 
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
@@ -17,14 +16,14 @@ import {
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type Employee = {
   id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
+  employee_id: string;
+  firstname: string;
+  lastname: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Employee>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -48,42 +47,38 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
+    accessorKey: 'employee_id',
+    header: 'Employee Id',
     cell: ({ row }) => (
       <div className="capitalize font-semibold">
-        <Badge>{row.getValue('status')}</Badge>
+        {row.getValue('employee_id')}
       </div>
     ),
   },
   {
-    accessorKey: 'email',
+    accessorKey: 'firstname',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Email
+          Firstname
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>,
+    cell: ({ row }) => (
+      <div className="lowercase">{row.getValue('firstname')}</div>
+    ),
   },
   {
-    accessorKey: 'amount',
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: 'lastname',
+    header: () => <div className="text-right">Lastname</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
+      return (
+        <div className="text-right font-medium">{row.getValue('lastname')}</div>
+      );
     },
   },
   {

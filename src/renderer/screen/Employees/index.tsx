@@ -1,47 +1,17 @@
 import { Plus } from 'lucide-react';
-import { Button } from '../../components/ui/button';
-import { Dialog, DialogTrigger } from '../../components/ui/dialog';
+import { columns } from '../../components/DataTableColumns/EmployeeColumns';
 import AddEmployee from '../../components/Dialog/AddEmployee';
+import { Button } from '../../components/ui/button';
 import { DataTable } from '../../components/ui/data-table';
-import {
-  Payment,
-  columns,
-} from '../../components/DataTableColumns/EmployeeColumns';
-
-const data: Payment[] = [
-  {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
-  },
-  {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
-  },
-  {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
-  },
-  {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
-  },
-];
+import { Dialog, DialogTrigger } from '../../components/ui/dialog';
+import { useFetchEmployees } from '../../hooks/data/use-fetch-employee';
+import useDisclosure from '../../hooks/use-disclosure';
 
 export default function Employees() {
+  const { isOpen, toggle } = useDisclosure();
+  const { employees } = useFetchEmployees();
+  console.log(employees);
+
   return (
     <div className="w-[calc(100vw-4rem)]">
       <div className="border-b p-5 h-20 ">
@@ -49,19 +19,19 @@ export default function Employees() {
           <h2 className="scroll-m-20 pb-2 text-xl font-bold  first:mt-0">
             Employee list
           </h2>
-          <Dialog>
+          <Dialog open={isOpen} onOpenChange={toggle}>
             <DialogTrigger>
               <Button>
                 <Plus className="mr-2" />
                 New employee
               </Button>
             </DialogTrigger>
-            <AddEmployee />
+            <AddEmployee toggle={toggle} />
           </Dialog>
         </div>
       </div>
       <div className="p-5 w-full">
-        <DataTable columns={columns} data={data} />
+        {employees && <DataTable columns={columns} data={employees} />}
       </div>
     </div>
   );

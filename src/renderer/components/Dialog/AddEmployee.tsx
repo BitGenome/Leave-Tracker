@@ -1,8 +1,11 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable react/jsx-props-no-spreading */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { z } from 'zod';
+import { ResponseErrorCode } from '../../../main/types/response';
+import { addEmployeeService } from '../../services/employee/add-employee.service';
 import { Button } from '../ui/button';
 import { DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import {
@@ -14,10 +17,10 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { channels } from '../../../main/channels/channels';
+import { useResetForm } from '../../hooks/use-reset-form';
 
 const formSchema = z.object({
-  id: z.string().min(1, {
+  employee_id: z.string().min(1, {
     message: 'Employee id must be at least 1 characters.',
   }),
   firstname: z.string().min(1, {
@@ -28,24 +31,34 @@ const formSchema = z.object({
   }),
 });
 
-type TAddEmployee = z.infer<typeof formSchema>;
+export type TAddEmployee = z.infer<typeof formSchema>;
 
-export default function AddEmployee() {
+type TAddEmployeeProps = {
+  toggle: () => void;
+};
+export default function AddEmployee({ toggle }: TAddEmployeeProps) {
   const form = useForm<TAddEmployee>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstname: '',
+      lastname: '',
+      employee_id: '',
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await window.electron.ipcRenderer.invoke(
-      channels.EMPLOYEE_ADD,
-      values,
-    );
-    console.log(response);
-  }
+  async function onSubmit(values: TAddEmployee) {
+    const response = await addEmployeeService(values);
+    if (response.code !== ResponseErrorCode.Success) return;
 
+    /**
+     * if success we close the modal
+     */
+    toggle();
+  }
+  useResetForm({
+    isSubmitSuccessful: form.formState.isSubmitSuccessful,
+    reset: form.reset,
+  });
   return (
     <DialogContent>
       <DialogHeader>
@@ -55,7 +68,7 @@ export default function AddEmployee() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="id"
+            name="employee_id"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Employee ID</FormLabel>

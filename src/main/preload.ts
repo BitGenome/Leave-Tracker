@@ -1,6 +1,7 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { Response } from './types/response';
 
 export type Channels = string;
 
@@ -22,7 +23,7 @@ const electronHandler = {
       ipcRenderer.once(channel, (_event, ...args) => func(...args));
     },
 
-    invoke(channel: Channels, ...args: unknown[]) {
+    invoke(channel: Channels, ...args: unknown[]): Promise<Response<any>> {
       return ipcRenderer.invoke(channel, ...args);
     },
   },
