@@ -10,6 +10,7 @@ import useDisclosure from '../../hooks/use-disclosure';
 export default function Employees() {
   const { isOpen, toggle } = useDisclosure();
   const { employees } = useFetchEmployees();
+
   console.log(employees);
 
   return (
@@ -19,6 +20,7 @@ export default function Employees() {
           <h2 className="scroll-m-20 pb-2 text-xl font-bold  first:mt-0">
             Employee list
           </h2>
+
           <Dialog open={isOpen} onOpenChange={toggle}>
             <DialogTrigger>
               <Button>

@@ -8,6 +8,7 @@ import { ROUTES } from './constants/routes';
 import Employees from './screen/Employees';
 import LeaveReports from './screen/LeaveReports';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Toaster } from './components/ui/toaster';
 // import 'tailwindcss/tailwind.css';
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
           </Route>
         </Routes>
       </Router>
+      <Toaster />
     </TooltipProvider>
   );
 }

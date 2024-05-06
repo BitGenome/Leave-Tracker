@@ -18,6 +18,7 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { useResetForm } from '../../hooks/use-reset-form';
+import { useToast } from '../ui/use-toast';
 
 const formSchema = z.object({
   employee_id: z.string().min(1, {
@@ -37,6 +38,7 @@ type TAddEmployeeProps = {
   toggle: () => void;
 };
 export default function AddEmployee({ toggle }: TAddEmployeeProps) {
+  const { toast } = useToast();
   const form = useForm<TAddEmployee>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,6 +56,10 @@ export default function AddEmployee({ toggle }: TAddEmployeeProps) {
      * if success we close the modal
      */
     toggle();
+    toast({
+      title: 'Success',
+      description: 'successfully added an employee',
+    });
   }
   useResetForm({
     isSubmitSuccessful: form.formState.isSubmitSuccessful,

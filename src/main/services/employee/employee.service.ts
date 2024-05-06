@@ -6,6 +6,7 @@ import { Response } from '../../types/response';
 import { RESPONSE } from '../../utils/response-code';
 
 type EmployeeProps = {
+  id: string;
   employee_id: string;
   firstname: string;
   lastname: string;
@@ -50,9 +51,35 @@ async function getAllEmployee(): Promise<Response<EmployeeProps[] | string>> {
   };
 }
 
+async function deleteEmployee(
+  _event: any,
+  props: Pick<EmployeeProps, 'id'>,
+): Promise<Response<string>> {
+  try {
+    const result = await Employee.destroy({
+      where: {
+        id: props.id,
+      },
+    });
+
+    return {
+      code: RESPONSE.success.code,
+      message: RESPONSE.success.message,
+      data: 'Successfully deleted the employee',
+    };
+  } catch (error) {
+    return {
+      code: RESPONSE.server_error.code,
+      message: RESPONSE.server_error.message,
+      data: `Error: ${error}`,
+    };
+  }
+}
+
 async function EmployeeService() {
   ipc.handle(channels.EMPLOYEE_ADD, AddEmployeeHandler);
   ipc.handle(channels.EMPLOYEE_GET_ALL, getAllEmployee);
+  ipc.handle(channels.EMPLOYEE_DELETE_BY_ID, deleteEmployee);
 }
 
 export default EmployeeService;

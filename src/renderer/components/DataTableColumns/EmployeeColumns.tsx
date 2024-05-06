@@ -1,8 +1,12 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react/jsx-no-bind */
+
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
+import { channels } from '../../../main/channels/channels';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 import {
@@ -13,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { useToast } from '../ui/use-toast';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -85,8 +90,23 @@ export const columns: ColumnDef<Employee>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const { toast } = useToast();
+      async function handleDeleteEmployee() {
+        const { id } = row.original;
+        const response = await window.electron.ipcRenderer.invoke(
+          channels.EMPLOYEE_DELETE_BY_ID,
+          { id },
+        );
+        if (response.code === 200)
+          return toast({
+            title: response.data,
+          });
 
+        return toast({
+          title: 'Error',
+          variant: 'destructive',
+        });
+      }
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -97,14 +117,14 @@ export const columns: ColumnDef<Employee>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleDeleteEmployee}
+              className="text-red-500"
+            >
+              Delete employee
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
