@@ -15,7 +15,6 @@ const sequelize = new Sequelize({
 async function initDbService(): Promise<boolean> {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
     log.info('Connection has been established successfully.');
     return true;
   } catch (error) {
