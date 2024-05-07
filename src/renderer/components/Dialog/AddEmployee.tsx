@@ -30,6 +30,9 @@ const formSchema = z.object({
   lastname: z.string().min(1, {
     message: 'Lastname must be at least 1 characters.',
   }),
+  position: z.string().min(1, {
+    message: 'Employee position must be at least 1 characters.',
+  }),
 });
 
 export type TAddEmployee = z.infer<typeof formSchema>;
@@ -45,6 +48,7 @@ export default function AddEmployee({ toggle }: TAddEmployeeProps) {
       firstname: '',
       lastname: '',
       employee_id: '',
+      position: '',
     },
   });
 
@@ -106,6 +110,20 @@ export default function AddEmployee({ toggle }: TAddEmployeeProps) {
                 <FormLabel>Lastname</FormLabel>
                 <FormControl>
                   <Input placeholder="Dela Cruz" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="position"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Position</FormLabel>
+                <FormControl>
+                  <Input placeholder="Manager" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

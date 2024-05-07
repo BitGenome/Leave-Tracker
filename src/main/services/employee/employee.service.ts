@@ -10,6 +10,7 @@ type EmployeeProps = {
   employee_id: string;
   firstname: string;
   lastname: string;
+  position: string;
 };
 
 async function AddEmployeeHandler(
@@ -20,6 +21,7 @@ async function AddEmployeeHandler(
     firstname: props.firstname,
     lastname: props.lastname,
     employee_id: props.employee_id,
+    position: props.position,
   });
 
   if (!employeeResult)

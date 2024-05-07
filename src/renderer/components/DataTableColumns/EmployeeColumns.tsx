@@ -74,7 +74,7 @@ export const columns: ColumnDef<Employee>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue('firstname')}</div>
+      <div className="capitalize">{row.getValue('firstname')}</div>
     ),
   },
   {
@@ -82,7 +82,18 @@ export const columns: ColumnDef<Employee>[] = [
     header: () => <div className="text-right">Lastname</div>,
     cell: ({ row }) => {
       return (
-        <div className="text-right font-medium">{row.getValue('lastname')}</div>
+        <div className="text-right font-medium capitalize">
+          {row.getValue('lastname')}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'position',
+    header: () => <div className="text-right">Position</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="text-right font-medium">{row.getValue('position')}</div>
       );
     },
   },

@@ -8,7 +8,9 @@ export default function MainLayout() {
         <LeftMenu />
       </div>
       <div className="h-screen overflow-y-auto">
-        <Outlet />
+        <div className="w-[calc(100vw-4rem)]">
+          <Outlet />
+        </div>
       </div>
     </section>
   );

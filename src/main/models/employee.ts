@@ -16,6 +16,7 @@ export interface EmployeeAttributes
   firstname: string;
   lastname: string;
   employee_id: string;
+  position: string;
 }
 const Employee = sequelize.define<EmployeeAttributes>('Employee', {
   id: {
@@ -28,6 +29,9 @@ const Employee = sequelize.define<EmployeeAttributes>('Employee', {
     allowNull: false,
   },
   lastname: {
+    type: DataTypes.STRING,
+  },
+  position: {
     type: DataTypes.STRING,
   },
   employee_id: {

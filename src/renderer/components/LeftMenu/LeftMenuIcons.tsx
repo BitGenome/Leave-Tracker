@@ -1,4 +1,10 @@
-import { CalendarCheck, FileText, LayoutGrid, User } from 'lucide-react';
+import {
+  CalendarCheck,
+  FileText,
+  LayoutGrid,
+  LayoutList,
+  User,
+} from 'lucide-react';
 import { HtmlHTMLAttributes, ReactElement, ReactNode } from 'react';
 
 import { ROUTES } from '../../constants/routes';
@@ -105,6 +111,17 @@ export const LeftMenuIcons: LeftIconProps[] = [
       //     <p>Leave Reports</p>
       //   </TooltipContent>
       // </Tooltip>
+    ),
+  },
+  {
+    link: ROUTES.LEAVE_CATEGORY,
+    name: 'Leave Category',
+    icon: (isActive = false) => (
+      <IconButton
+        icon={<LayoutList className="text-white h-4 w-4" />}
+        isActive={isActive}
+        toolTipContent="Leave Category"
+      />
     ),
   },
 ];

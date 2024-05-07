@@ -11,10 +11,8 @@ export default function Employees() {
   const { isOpen, toggle } = useDisclosure();
   const { employees } = useFetchEmployees();
 
-  console.log(employees);
-
   return (
-    <div className="w-[calc(100vw-4rem)]">
+    <>
       <div className="border-b p-5 h-20 ">
         <div className="flex justify-between">
           <h2 className="scroll-m-20 pb-2 text-xl font-bold  first:mt-0">
@@ -35,6 +33,6 @@ export default function Employees() {
       <div className="p-5 w-full">
         {employees && <DataTable columns={columns} data={employees} />}
       </div>
-    </div>
+    </>
   );
 }
