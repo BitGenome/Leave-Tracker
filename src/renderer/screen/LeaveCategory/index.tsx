@@ -2,8 +2,12 @@ import { Plus } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Dialog, DialogTrigger } from '../../components/ui/dialog';
 import AddLeaveCategory from '../../components/Dialog/AddLeaveCategory';
+import { DataTable } from '../../components/ui/data-table';
+import { leaveTypeColumns } from '../../components/DataTableColumns/LeaveCategoryColumns';
+import { usefetchLeaveType } from '../../hooks/data/LeaveType/use-fetch-leave-type';
 
 export default function LeaveCategory() {
+  const { leaveType } = usefetchLeaveType();
   return (
     <div className="w-full">
       <div className="border-b p-5 h-20 ">
@@ -16,12 +20,15 @@ export default function LeaveCategory() {
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2" />
-                New leave category
+                New leave type
               </Button>
             </DialogTrigger>
             <AddLeaveCategory />
           </Dialog>
         </div>
+      </div>
+      <div className="p-5 w-full">
+        {leaveType && <DataTable columns={leaveTypeColumns} data={leaveType} />}
       </div>
     </div>
   );

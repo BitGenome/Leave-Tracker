@@ -5,4 +5,5 @@ export const channels = {
   EMPLOYEE_DELETE_BY_ID: 'employee:delete_employee',
 
   LEAVE_CATEGORY_ADD: 'leave_category:add',
+  LEAVE_CATEGORY_GET_ALL: 'leave_category:get_all',
 };

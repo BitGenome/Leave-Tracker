@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { addLeaveCategoryService } from '../../services/leave-category/add-leave-category.service';
 import { Button } from '../ui/button';
 import {
   DialogContent,
@@ -19,12 +20,12 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { addLeaveCategoryService } from '../../services/leave-category/add-leave-category.service';
 
 const categorySchema = z.object({
   category_name: z.string().min(1, {
-    message: 'Employee id must be at least 1 characters.',
+    message: 'Leave type must be at least 1 characters.',
   }),
+  accrual_rate: z.number(),
 });
 
 export type LeaveCategory = z.infer<typeof categorySchema>;
@@ -34,6 +35,7 @@ export default function AddLeaveCategory() {
     resolver: zodResolver(categorySchema),
     defaultValues: {
       category_name: '',
+      accrual_rate: 0,
     },
   });
   async function onSubmit(values: LeaveCategory) {
@@ -43,9 +45,9 @@ export default function AddLeaveCategory() {
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>New Leave Category</DialogTitle>
+        <DialogTitle>New Leave Type</DialogTitle>
         <DialogDescription>
-          Add here the employee leaves category.
+          Add here the employee leaves type.
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -56,9 +58,26 @@ export default function AddLeaveCategory() {
               name="category_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Leave Category Name</FormLabel>
+                  <FormLabel>Leave Type</FormLabel>
                   <FormControl>
                     <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="accrual_rate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Accrual Rate (in days per year)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(event) => field.onChange(+event.target.value)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -16,6 +16,7 @@ export interface LeaveCategoryAttributes
   > {
   id: CreationOptional<string>;
   name: string;
+  accrual_rate?: number;
 }
 
 const LeaveCategory = sequelize.define<LeaveCategoryAttributes>(
@@ -29,6 +30,10 @@ const LeaveCategory = sequelize.define<LeaveCategoryAttributes>(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    accrual_rate: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
   },
 );

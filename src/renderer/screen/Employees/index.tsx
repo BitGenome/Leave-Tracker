@@ -4,7 +4,7 @@ import AddEmployee from '../../components/Dialog/AddEmployee';
 import { Button } from '../../components/ui/button';
 import { DataTable } from '../../components/ui/data-table';
 import { Dialog, DialogTrigger } from '../../components/ui/dialog';
-import { useFetchEmployees } from '../../hooks/data/use-fetch-employee';
+import { useFetchEmployees } from '../../hooks/data/Employee/use-fetch-employee';
 import useDisclosure from '../../hooks/use-disclosure';
 
 export default function Employees() {
