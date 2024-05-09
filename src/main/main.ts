@@ -134,6 +134,8 @@ app
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();
     });
+
+    log.info('start logging');
     await boot();
   })
   .catch(console.log);

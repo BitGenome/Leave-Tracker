@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import {
   CreationOptional,
   DataTypes,
@@ -6,6 +7,7 @@ import {
   Model,
 } from 'sequelize';
 import { sequelize } from '../services/database/database.service';
+import LeaveBalance from './leave-balance';
 
 export interface EmployeeAttributes
   extends Model<
@@ -18,7 +20,7 @@ export interface EmployeeAttributes
   employee_id: string;
   position: string;
 }
-const Employee = sequelize.define<EmployeeAttributes>('Employee', {
+const Employee = sequelize.define<EmployeeAttributes>('Employees', {
   id: {
     type: DataTypes.UUIDV4,
     primaryKey: true,
@@ -41,4 +43,6 @@ const Employee = sequelize.define<EmployeeAttributes>('Employee', {
   },
 });
 
+Employee.hasMany(LeaveBalance, { foreignKey: 'employee_id' });
+LeaveBalance.belongsTo(Employee, { foreignKey: 'employee_id' });
 export default Employee;

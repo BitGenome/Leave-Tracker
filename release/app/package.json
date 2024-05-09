@@ -1,5 +1,5 @@
 {
-  "name": "electron-react-boilerplate",
+  "name": "eLeaveTracker",
   "version": "4.6.0",
   "description": "A foundation for scalable desktop apps",
   "license": "MIT",
@@ -14,5 +14,8 @@
     "postinstall": "npm run rebuild && npm run link-modules",
     "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
   },
-  "dependencies": {}
+  "dependencies": {
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7"
+  }
 }

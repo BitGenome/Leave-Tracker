@@ -112,7 +112,7 @@ export const leaveTypeColumns: ColumnDef<LeaveCategoryAttributes>[] = [
               onClick={handleDeleteEmployee}
               className="text-red-500"
             >
-              Delete employee
+              Delete leave type
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
